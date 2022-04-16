@@ -1,0 +1,1040 @@
+<WindowManager>:
+    canvas.before:
+        Color:
+            rgba: 55/255, 55/255, 55/255, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+<Label>:
+    font_name: "Pacifico"
+    color: 1, 1, 1, 1
+
+<Button>:
+    #background_normal: ''
+    background_color: 255/255, 255/255, 255/255, 1
+    font_name: "Pacifico"
+    color: 1, 1, 1, 1
+    #font_size: 0.1 * self.width
+
+<TextInput>:
+    font_name: "Pacifico"
+
+###################################################################################################################################### Home Window
+<HomeWindow>:
+    name : "home"
+
+    GridLayout:
+        cols: 1
+        spacing: 0.02 * self.height
+
+################################################################### Banner
+        GridLayout:
+            size_hint: 1, 0.1
+            cols: 3
+
+            Button:
+                size_hint: 0.2, 1
+                background_color: (0, 0, 0, 0)
+
+            Label:
+                size_hint: 0.6, 1
+                font_size: 0.9 * self.height
+                text: "Home"
+
+            Button:
+                size_hint: 0.2, 1
+                background_color: (0, 0, 0, 0)
+
+################################################################### Buttons
+        GridLayout:
+            cols: 1
+
+
+            Button:
+                font_size: 0.3 * self.height
+                text: "Fabrics"
+
+                on_press:
+                    app.root.current = "fabric_main"
+                    root.manager.transition.direction = "left"
+            Button:
+                font_size: 0.3 * self.height
+                text: "Projects"
+
+                on_press:
+                    app.root.current = "project_main"
+                    root.manager.transition.direction = "left"
+            Button:
+                font_size: 0.3 * self.height
+                text: "Shopping List"
+
+                on_press:
+                    app.root.current = "shopping"
+                    root.manager.transition.direction = "left"
+            Button:
+                font_size: 0.3 * self.height
+                text: "Measurements"
+
+                on_press:
+                    app.root.current = "measure_main"
+                    root.manager.transition.direction = "left"
+            Button:
+                font_size: 0.3 * self.height
+                text: "Settings"
+
+                on_press:
+                    app.root.current = "settings"
+                    root.manager.transition.direction = "left"
+
+###################################################################################################################################### Fabric Window
+<FabricMainWindow>:
+    name : "fabric_main"
+
+    GridLayout:
+        cols: 1
+        spacing: 0.02 * self.height
+
+################################################################### Banner
+        GridLayout:
+            size_hint: 1, 0.1
+            cols: 3
+
+            Button:
+                size_hint: 0.2, 1
+                background_color: (0, 0, 0, 0)
+
+                on_release:
+                    app.root.current = "home"
+                    root.manager.transition.direction = "right"
+
+                Image:
+                    source: 'LeftArrow.png'
+                    pos: self.parent.pos
+                    center_x: self.parent.center_x
+                    height: self.parent.height if self.parent.height < self.parent.width else self.parent.width
+
+            Label:
+                size_hint: 0.6, 1
+                font_size: 0.9 * self.height
+                text: "Fabrics"
+
+            Button:
+                size_hint: 0.2, 1
+                background_color: (0, 0, 0, 0)
+
+                on_release:
+                    root.sort_popup()
+
+                Image:
+                    source: 'MagnifyingGlass.png'
+                    pos: self.parent.pos
+                    center_x: self.parent.center_x
+                    height: self.parent.height if self.parent.height < self.parent.width else self.parent.width
+
+################################################################### Fabric List
+        GridLayout:
+            cols: 1
+            spacing: 0.007 * self.height
+
+            ScrollView:
+                id: fabric_scroll_id
+
+                do_scroll_x: False
+                do_scroll_y: True
+                #effect_cls: 'ScrollEffect'
+
+                GridLayout:
+                    id: fabric_list_id
+
+                    size_hint_x: 1
+                    size_hint_y: None
+                    cols: 1
+                    height: self.minimum_height
+                    row_default_height: root.height / 6.5
+                    row_force_default: True
+
+################################################################### Add Fabric Button
+            Button:
+                text: "Add Fabric"
+                size_hint_y: 0.1
+                font_size: 0.5 * self.height
+
+                on_press:
+                    root.add()
+
+###################################################################################################################################### Fabric Edit Window
+<FabricEditWindow>:
+    name : "fabric_edit"
+
+    title_var: title_var
+    name_var: name_var
+    color_var: color_var
+    material_var: material_var
+    length_var: length_var
+    width_var: width_var
+    other_var: other_var
+
+    GridLayout:
+        cols: 1
+        spacing: 0.02 * self.height
+################################################################### Banner
+        GridLayout:
+            size_hint: 1, 0.1
+            cols: 3
+
+            Button:
+                size_hint: 0.2, 1
+                background_color: (0, 0, 0, 0)
+
+                on_release:
+                    app.root.current = "fabric_main"
+                    root.manager.transition.direction = "right"
+
+                Image:
+                    source: 'LeftArrow.png'
+                    pos: self.parent.pos
+                    center_x: self.parent.center_x
+                    height: self.parent.height if self.parent.height < self.parent.width else self.parent.width
+
+            Label:
+                size_hint: 0.6, 1
+                id: title_var
+                font_size: 0.9 * self.height
+
+            Button:
+                size_hint: 0.2, 1
+                background_color: (0, 0, 0, 0)
+
+################################################################### Fabric Info
+        GridLayout:
+            cols: 1
+
+            GridLayout:
+                cols: 2
+
+                Label:
+                    font_size: 0.4 * self.height
+                    text: "Name"
+                TextInput:
+                    font_size: 0.1 * self.width
+                    multiline: False
+                    id: name_var
+
+                Label:
+                    font_size: 0.4 * self.height
+                    text: "Color"
+                TextInput:
+                    font_size: 0.1 * self.width
+                    multiline: False
+                    id: color_var
+
+                Label:
+                    font_size: 0.4 * self.height
+                    text: "Material"
+                TextInput:
+                    font_size: 0.1 * self.width
+                    multiline: False
+                    id: material_var
+
+                Label:
+                    font_size: 0.4 * self.height
+                    text: "Length"
+                TextInput:
+                    font_size: 0.1 * self.width
+                    multiline: False
+                    id: length_var
+
+                Label:
+                    font_size: 0.4 * self.height
+                    text: "Width"
+                TextInput:
+                    font_size: 0.1 * self.width
+                    multiline: False
+                    id: width_var
+
+                Label:
+                    font_size: 0.4 * self.height
+                    text: "Other"
+                TextInput:
+                    font_size: 0.1 * self.width
+                    multiline: False
+                    id: other_var
+
+            Button:
+                font_size: 0.5 * self.height
+                text: "Submit"
+                size_hint: 1, 0.1
+                on_press: root.submit_fabric()
+
+###################################################################################################################################### Project Window
+<ProjectMainWindow>:
+    name : "project_main"
+
+    GridLayout:
+        cols: 1
+        spacing: 0.02 * self.height
+
+################################################################### Banner
+        GridLayout:
+            size_hint: 1, 0.1
+            cols: 3
+
+            Button:
+                size_hint: 0.2, 1
+                background_color: (0, 0, 0, 0)
+
+                on_release:
+                    app.root.current = "home"
+                    root.manager.transition.direction = "right"
+
+                Image:
+                    source: 'LeftArrow.png'
+                    pos: self.parent.pos
+                    center_x: self.parent.center_x
+                    height: self.parent.height if self.parent.height < self.parent.width else self.parent.width
+
+            Label:
+                size_hint: 0.6, 1
+                font_size: 0.9 * self.height
+                text: "Projects"
+
+            Button:
+                size_hint: 0.2, 1
+                background_color: (0, 0, 0, 0)
+
+                on_release:
+                    root.sort_popup()
+
+                Image:
+                    source: 'MagnifyingGlass.png'
+                    pos: self.parent.pos
+                    center_x: self.parent.center_x
+                    height: self.parent.height if self.parent.height < self.parent.width else self.parent.width
+
+################################################################### Project List
+        GridLayout:
+            cols: 1
+            spacing: 0.007 * self.height
+
+            ScrollView:
+                id: project_scroll_id
+
+                do_scroll_x: False
+                do_scroll_y: True
+                #effect_cls: 'ScrollEffect'
+
+                GridLayout:
+                    id: project_list_id
+
+                    size_hint_x: 1
+                    size_hint_y: None
+                    cols: 1
+                    height: self.minimum_height
+                    row_default_height: root.height / 6.5
+                    row_force_default: True
+
+################################################################### Add Project Button
+            Button:
+                text: "Add project"
+                size_hint_y: 0.1
+                font_size: 0.5 * self.height
+
+                on_press:
+                    root.add()
+
+###################################################################################################################################### Project Edit Window
+<ProjectEditWindow>:
+    name : "project_edit"
+
+    title_var: title_var
+    name_var: name_var
+    notes_var: notes_var
+    supplies_var: supplies_var
+    measurements_var: measurements_var
+    ref_var: ref_var
+    cost_var: cost_var
+    due_var: due_var
+    completed_var: completed_var
+
+    GridLayout:
+        cols: 1
+        spacing: 0.02 * self.height
+################################################################### Banner
+        GridLayout:
+            size_hint: 1, 0.1
+            cols: 3
+
+            Button:
+                size_hint: 0.2, 1
+                background_color: (0, 0, 0, 0)
+
+                on_release:
+                    app.root.current = "project_main"
+                    root.manager.transition.direction = "right"
+
+                Image:
+                    source: 'LeftArrow.png'
+                    pos: self.parent.pos
+                    center_x: self.parent.center_x
+                    height: self.parent.height if self.parent.height < self.parent.width else self.parent.width
+
+            Label:
+                size_hint: 0.6, 1
+                id: title_var
+                font_size: 0.9 * self.height
+
+            Button:
+                size_hint: 0.2, 1
+                background_color: (0, 0, 0, 0)
+
+################################################################### Project Info
+        ScrollView:
+            do_scroll_x: False
+            do_scroll_y: True
+            #effect_cls: 'ScrollEffect'
+
+            GridLayout:
+                size_hint_x: 1
+                size_hint_y: None
+                cols: 1
+                height: self.minimum_height
+                row_default_height: root.height / 4
+                row_force_default: True
+
+                GridLayout:
+                    cols: 1
+                    GridLayout:
+                        size_hint: 1, 1
+                        cols: 2
+                        Label:
+                            size_hint: 0.35, 1
+                            font_size: 0.35 * self.width if 0.35 * self.width < 0.7 * self.height else 0.7 * self.height
+                            text: "Name"
+                        TextInput:
+                            font_size: 0.4 * self.height
+                            multiline: True
+                            id: name_var
+
+                    Label:
+                        size_hint: 1, 1
+
+
+                GridLayout:
+                    cols:1
+                    Label:
+                        size_hint: 1, 0.5
+                    GridLayout:
+                        cols:1
+                        size_hint: 1, 0.5
+                        Label:
+                            text_size: self.size
+                            halign: 'left'
+                            valign: 'bottom'
+                            font_size: 0.15 * self.width if 0.15 * self.width < 0.7 * self.height else 0.7 * self.height
+                            text: "Notes"
+                    TextInput:
+                        font_size: 0.17 * self.height
+                        multiline: True
+                        id: notes_var
+
+                GridLayout:
+                    cols:1
+                    Label:
+                        size_hint: 1, 0.5
+                    GridLayout:
+                        cols:1
+                        size_hint: 1, 0.5
+                        Label:
+                            text_size: self.size
+                            halign: 'left'
+                            valign: 'bottom'
+                            font_size: 0.15 * self.width if 0.15 * self.width < 0.7 * self.height else 0.7 * self.height
+                            text: "Supplies"
+                    TextInput:
+                        font_size: 0.17 * self.height
+                        multiline: True
+                        id: supplies_var
+
+                GridLayout:
+                    cols:1
+                    Label:
+                        size_hint: 1, 0.5
+                    GridLayout:
+                        cols:1
+                        size_hint: 1, 0.5
+                        Label:
+                            text_size: self.size
+                            halign: 'left'
+                            valign: 'bottom'
+                            font_size: 0.15 * self.width if 0.15 * self.width < 0.7 * self.height else 0.7 * self.height
+                            text: "Measurements"
+                    TextInput:
+                        font_size: 0.17 * self.height
+                        multiline: True
+                        id: measurements_var
+
+                GridLayout:
+                    cols:1
+                    Label:
+                        size_hint: 1, 0.5
+                    GridLayout:
+                        cols:1
+                        size_hint: 1, 0.5
+                        Label:
+                            text_size: self.size
+                            halign: 'left'
+                            valign: 'bottom'
+                            font_size: 0.15 * self.width if 0.15 * self.width < 0.7 * self.height else 0.7 * self.height
+                            text: "References"
+                    TextInput:
+                        font_size: 0.17 * self.height
+                        multiline: True
+                        id: ref_var
+
+                GridLayout:
+                    cols:1
+                    Label:
+                        size_hint: 1, 0.5
+                    GridLayout:
+                        cols:1
+                        size_hint: 1, 0.5
+                        Label:
+                            text_size: self.size
+                            halign: 'left'
+                            valign: 'bottom'
+                            font_size: 0.15 * self.width if 0.15 * self.width < 0.7 * self.height else 0.7 * self.height
+                            text: "Cost"
+                    TextInput:
+                        font_size: 0.17 * self.height
+                        multiline: True
+                        id: cost_var
+
+                GridLayout:
+                    cols:1
+                    Label:
+                        size_hint: 1, 0.5
+                    GridLayout:
+                        cols:1
+                        size_hint: 1, 0.5
+                        Label:
+                            text_size: self.size
+                            halign: 'left'
+                            valign: 'bottom'
+                            font_size: 0.15 * self.width if 0.15 * self.width < 0.7 * self.height else 0.7 * self.height
+                            text: "Due date"
+                    TextInput:
+                        font_size: 0.17 * self.height
+                        multiline: True
+                        id: due_var
+
+                GridLayout:
+                    cols: 1
+                    GridLayout:
+                        cols: 2
+                        Label:
+                            font_size: 0.15 * self.width if 0.15 * self.width < 0.4 * self.height else 0.4 * self.height
+                            text: "Completed"
+                        Button:
+                            font_size: 0.15 * self.width if 0.15 * self.width < 0.4 * self.height else 0.4 * self.height
+                            id: completed_var
+                            on_press:
+                                root.completed_button()
+                    Button:
+                        font_size: 0.5 * self.height
+                        text: "Submit"
+                        on_press: root.submit_project()
+
+###################################################################################################################################### Shopping Window
+<ShoppingWindow>:
+    name : "shopping"
+    name_var: name_var
+
+    GridLayout:
+        cols: 1
+        spacing: 0.02 * self.height
+
+################################################################### Banner
+        GridLayout:
+            size_hint: 1, 0.1
+            cols: 3
+
+            Button:
+                size_hint: 0.2, 1
+                background_color: (0, 0, 0, 0)
+
+                on_release:
+                    app.root.current = "home"
+                    root.manager.transition.direction = "right"
+
+                Image:
+                    source: 'LeftArrow.png'
+                    pos: self.parent.pos
+                    center_x: self.parent.center_x
+                    height: self.parent.height if self.parent.height < self.parent.width else self.parent.width
+
+            Label:
+                size_hint: 0.6, 1
+                font_size: 0.9 * self.height
+                text: "Shopping"
+
+            Button:
+                size_hint: 0.2, 1
+                background_color: (0, 0, 0, 0)
+
+                on_release:
+                    root.sort_popup()
+
+                Image:
+                    source: 'MagnifyingGlass.png'
+                    pos: self.parent.pos
+                    center_x: self.parent.center_x
+                    height: self.parent.height if self.parent.height < self.parent.width else self.parent.width
+################################################################### Add Shopping Button
+        GridLayout:
+            size_hint: 1, 0.1
+            cols: 2
+            TextInput:
+                id: name_var
+                font_size: 0.4 * self.height
+                multiline: False
+
+            Button:
+                size_hint_x: 0.2
+                text: "add"
+                font_size: 0.5 * self.width if 0.5 * self.width < 0.9 * self.height else 0.9 * self.height
+
+                on_press:
+                    root.add()
+################################################################### Shopping List
+        GridLayout:
+            cols: 1
+            spacing: 0.007 * self.height
+
+            ScrollView:
+                id: shopping_scroll_id
+
+                do_scroll_x: False
+                do_scroll_y: True
+                #effect_cls: 'ScrollEffect'
+
+                GridLayout:
+                    id: shopping_list_id
+
+                    size_hint_x: 1
+                    size_hint_y: None
+                    cols: 1
+                    height: self.minimum_height
+                    row_default_height: root.height / 13
+                    row_force_default: True
+
+###################################################################################################################################### Measure Window
+<MeasureMainWindow>:
+    name : "measure_main"
+
+    GridLayout:
+        cols: 1
+        spacing: 0.02 * self.height
+
+################################################################### Banner
+        GridLayout:
+            size_hint: 1, 0.1
+            cols: 3
+
+            Button:
+                size_hint: 0.2, 1
+                background_color: (0, 0, 0, 0)
+
+                on_release:
+                    app.root.current = "home"
+                    root.manager.transition.direction = "right"
+
+                Image:
+                    source: 'LeftArrow.png'
+                    pos: self.parent.pos
+                    center_x: self.parent.center_x
+                    height: self.parent.height if self.parent.height < self.parent.width else self.parent.width
+
+            Label:
+                size_hint: 0.6, 1
+                font_size: 0.9 * self.height if 0.9 * self.height < 0.17 * self.width else 0.17 * self.width
+                text: "Measurements"
+
+            Button:
+                size_hint: 0.2, 1
+                background_color: (0, 0, 0, 0)
+
+                on_release:
+                    root.sort_popup()
+
+                Image:
+                    source: 'MagnifyingGlass.png'
+                    pos: self.parent.pos
+                    center_x: self.parent.center_x
+                    height: self.parent.height if self.parent.height < self.parent.width else self.parent.width
+
+################################################################### Measure List
+        GridLayout:
+            cols: 1
+            spacing: 0.007 * self.height
+
+            ScrollView:
+                id: measure_scroll_id
+
+                do_scroll_x: False
+                do_scroll_y: True
+                #effect_cls: 'ScrollEffect'
+
+                GridLayout:
+                    id: measure_list_id
+
+                    size_hint_x: 1
+                    size_hint_y: None
+                    cols: 1
+                    height: self.minimum_height
+                    row_default_height: root.height / 6.5
+                    row_force_default: True
+
+################################################################### Add Project Button
+            Button:
+                text: "Add measures"
+                size_hint_y: 0.1
+                font_size: 0.5 * self.height
+
+                on_press:
+                    root.add()
+
+###################################################################################################################################### Measure Edit Window
+<MeasureEditWindow>:
+    name : "measure_edit"
+
+    title_var: title_var
+    name_var: name_var
+    height_var: height_var
+    bust_var: bust_var
+    waist_var: waist_var
+    hips_var: hips_var
+    in_seam_var: in_seam_var
+    other_var: other_var
+    last_date_var: last_date_var
+
+    GridLayout:
+        cols: 1
+        spacing: 0.02 * self.height
+################################################################### Banner
+        GridLayout:
+            size_hint: 1, 0.1
+            cols: 3
+
+            Button:
+                size_hint: 0.2, 1
+                background_color: (0, 0, 0, 0)
+
+                on_release:
+                    app.root.current = "measure_main"
+                    root.manager.transition.direction = "right"
+
+                Image:
+                    source: 'LeftArrow.png'
+                    pos: self.parent.pos
+                    center_x: self.parent.center_x
+                    height: self.parent.height if self.parent.height < self.parent.width else self.parent.width
+
+            Label:
+                size_hint: 0.6, 1
+                id: title_var
+                font_size: 0.9 * self.height
+
+            Button:
+                size_hint: 0.2, 1
+                background_color: (0, 0, 0, 0)
+
+################################################################### Measure Info
+        GridLayout:
+            cols: 1
+
+            GridLayout:
+                cols: 2
+
+                Label:
+                    font_size: 0.4 * self.height if 0.4 * self.height < 0.12 * self.width else 0.12 * self.width
+                    text: "Name"
+                TextInput:
+                    font_size: 0.1 * self.width
+                    multiline: False
+                    id: name_var
+
+                Label:
+                    font_size: 0.4 * self.height if 0.4 * self.height < 0.12 * self.width else 0.12 * self.width
+                    text: "Height"
+                TextInput:
+                    font_size: 0.1 * self.width
+                    multiline: False
+                    id: height_var
+
+                Label:
+                    font_size: 0.4 * self.height if 0.4 * self.height < 0.12 * self.width else 0.12 * self.width
+                    text: "Bust/Chest"
+                TextInput:
+                    font_size: 0.1 * self.width
+                    multiline: False
+                    id: bust_var
+
+                Label:
+                    font_size: 0.4 * self.height if 0.4 * self.height < 0.12 * self.width else 0.12 * self.width
+                    text: "Waist"
+                TextInput:
+                    font_size: 0.1 * self.width
+                    multiline: False
+                    id: waist_var
+
+                Label:
+                    font_size: 0.4 * self.height if 0.4 * self.height < 0.12 * self.width else 0.12 * self.width
+                    text: "Hips"
+                TextInput:
+                    font_size: 0.1 * self.width
+                    multiline: False
+                    id: hips_var
+
+                Label:
+                    font_size: 0.4 * self.height if 0.4 * self.height < 0.12 * self.width else 0.12 * self.width
+                    text: "In seam"
+                TextInput:
+                    font_size: 0.1 * self.width
+                    multiline: False
+                    id: in_seam_var
+
+                Label:
+                    font_size: 0.4 * self.height if 0.4 * self.height < 0.12 * self.width else 0.12 * self.width
+                    text: "Other"
+                TextInput:
+                    font_size: 0.1 * self.width
+                    multiline: False
+                    id: other_var
+
+                Label:
+                    font_size: 0.4 * self.height if 0.4 * self.height < 0.12 * self.width else 0.12 * self.width
+                    text: "Date last measured"
+                TextInput:
+                    font_size: 0.1 * self.width
+                    multiline: False
+                    id: last_date_var
+
+            Button:
+                font_size: 0.5 * self.height
+                text: "Submit"
+                size_hint: 1, 0.1
+                on_press: root.submit_project()
+
+###################################################################################################################################### Settings Window
+<SettingsWindow>:
+    name : "settings"
+
+    GridLayout:
+        cols: 1
+        spacing: 0.02 * self.height
+
+################################################################### Banner
+        GridLayout:
+            size_hint: 1, 0.1
+            cols: 3
+
+            Button:
+                size_hint: 0.2, 1
+                background_color: (0, 0, 0, 0)
+
+                on_release:
+                    app.root.current = "home"
+                    root.manager.transition.direction = "right"
+
+                Image:
+                    source: 'LeftArrow.png'
+                    pos: self.parent.pos
+                    center_x: self.parent.center_x
+                    height: self.parent.height if self.parent.height < self.parent.width else self.parent.width
+
+            Label:
+                size_hint: 0.6, 1
+                font_size: 0.9 * self.height if 0.9 * self.height < 0.3 * self.width else 0.3 * self.width
+                text: "Settings"
+
+            Button:
+                size_hint: 0.2, 1
+                background_color: (0, 0, 0, 0)
+################################################################### Banner
+        GridLayout:
+            cols: 1
+
+            Button:
+                font_size: 0.45 * self.height if 0.45 * self.height < 0.1 * self.width else 0.1 * self.width
+                text: "Erase all fabrics"
+
+                on_release:
+                    root.remove_popup("fabrics")
+
+            Button:
+                font_size: 0.45 * self.height if 0.45 * self.height < 0.1 * self.width else 0.1 * self.width
+                text: "Erase all projects"
+
+                on_release:
+                    root.remove_popup("projects")
+
+            Button:
+                font_size: 0.45 * self.height if 0.45 * self.height < 0.1 * self.width else 0.1 * self.width
+                text: "Erase all shopping items"
+
+                on_release:
+                    root.remove_popup("shopping items")
+
+            Button:
+                font_size: 0.45 * self.height if 0.45 * self.height < 0.1 * self.width else 0.1 * self.width
+                text: "Erase all measurements"
+
+                on_release:
+                    root.remove_popup("measurements")
+
+            Label:
+                size_hint: 1, 0.25
+                font_size: 0.45 * self.height if 0.45 * self.height < 0.1 * self.width else 0.1 * self.width
+                text: "App made by Ennache"
+
+###################################################################################################################################### PopUp
+<FabricSortPopUp>:
+    Button:
+        text: "Newest"
+        font_size: 0.5 * self.height if (0.5 * self.height) < (0.2 * self.width) else 0.2 * self.width
+        size_hint: 1, 0.16
+        pos_hint: {"x": 0, "y": 0.83}
+        on_release:
+            root.sort("newest")
+            root.parent.parent.parent.dismiss()
+    Button:
+        text: "Name"
+        font_size: 0.5 * self.height if (0.5 * self.height) < (0.2 * self.width) else 0.2 * self.width
+        size_hint: 1, 0.16
+        pos_hint: {"x": 0, "y": 0.664}
+        on_release:
+            root.sort("name")
+            root.parent.parent.parent.dismiss()
+    Button:
+        text: "Color"
+        font_size: 0.5 * self.height if (0.5 * self.height) < (0.2 * self.width) else 0.2 * self.width
+        size_hint: 1, 0.16
+        pos_hint: {"x": 0, "y": 0.498}
+        on_release:
+            root.sort("color")
+            root.parent.parent.parent.dismiss()
+    Button:
+        text: "Material"
+        font_size: 0.5 * self.height if (0.5 * self.height) < (0.2 * self.width) else 0.2 * self.width
+        size_hint: 1, 0.16
+        pos_hint: {"x": 0, "y": 0.332}
+        on_release:
+            root.sort("material")
+            root.parent.parent.parent.dismiss()
+    Button:
+        text: "Length"
+        font_size: 0.5 * self.height if (0.5 * self.height) < (0.2 * self.width) else 0.2 * self.width
+        size_hint: 1, 0.16
+        pos_hint: {"x": 0, "y": 0.166}
+        on_release:
+            root.sort("length")
+            root.parent.parent.parent.dismiss()
+    Button:
+        text: "Width"
+        font_size: 0.5 * self.height if (0.5 * self.height) < (0.2 * self.width) else 0.2 * self.width
+        size_hint: 1, 0.16
+        pos_hint: {"x": 0, "y": 0}
+        on_release:
+            root.sort("width")
+            root.parent.parent.parent.dismiss()
+
+<ProjectSortPopUp>:
+    Button:
+        text: "Newest"
+        font_size: 0.5 * self.height if (0.5 * self.height) < (0.2 * self.width) else 0.2 * self.width
+        size_hint: 1, 0.16
+        pos_hint: {"x": 0, "y": 0.83}
+        on_release:
+            root.sort("newest")
+            root.parent.parent.parent.dismiss()
+    Button:
+        text: "Name"
+        font_size: 0.5 * self.height if (0.5 * self.height) < (0.2 * self.width) else 0.2 * self.width
+        size_hint: 1, 0.16
+        pos_hint: {"x": 0, "y": 0.664}
+        on_release:
+            root.sort("name")
+            root.parent.parent.parent.dismiss()
+    Button:
+        text: "Completed"
+        font_size: 0.5 * self.height if (0.5 * self.height) < (0.2 * self.width) else 0.2 * self.width
+        size_hint: 1, 0.16
+        pos_hint: {"x": 0, "y": 0.498}
+        on_release:
+            root.sort("completed")
+            root.parent.parent.parent.dismiss()
+
+<ShoppingSortPopUp>:
+    Button:
+        text: "Newest"
+        font_size: 0.5 * self.height if (0.5 * self.height) < (0.2 * self.width) else 0.2 * self.width
+        size_hint: 1, 0.16
+        pos_hint: {"x": 0, "y": 0.83}
+        on_release:
+            root.sort("newest")
+            root.parent.parent.parent.dismiss()
+    Button:
+        text: "Name"
+        font_size: 0.5 * self.height if (0.5 * self.height) < (0.2 * self.width) else 0.2 * self.width
+        size_hint: 1, 0.16
+        pos_hint: {"x": 0, "y": 0.664}
+        on_release:
+            root.sort("name")
+            root.parent.parent.parent.dismiss()
+
+<MeasureSortPopUp>:
+    Button:
+        text: "Newest"
+        font_size: 0.5 * self.height if (0.5 * self.height) < (0.2 * self.width) else 0.2 * self.width
+        size_hint: 1, 0.16
+        pos_hint: {"x": 0, "y": 0.83}
+        on_release:
+            root.sort("newest")
+            root.parent.parent.parent.dismiss()
+    Button:
+        text: "Name"
+        font_size: 0.5 * self.height if (0.5 * self.height) < (0.2 * self.width) else 0.2 * self.width
+        size_hint: 1, 0.16
+        pos_hint: {"x": 0, "y": 0.664}
+        on_release:
+            root.sort("name")
+            root.parent.parent.parent.dismiss()
+
+<DeletePopUp>:
+    message_var: message_var
+
+    Label:
+        id: message_var
+        halign: 'center'
+        valign: 'middle'
+        font_size: 0.1 * self.width if (0.1 * self.width) < (0.2 * self.height) else 0.2 * self.height
+        size_hint: 1, 0.6
+        pos_hint: {"x": 0, "y": 0.41}
+
+    Button:
+        font_size: 0.5 * self.height if (0.5 * self.height) < (0.2 * self.width) else 0.2 * self.width
+        text: "CANCEL"
+        size_hint: 1, 0.2
+        pos_hint: {"x": 0, "y": 0.21}
+        on_release:
+            root.parent.parent.parent.dismiss()
+    Button:
+        background_color: 1, 0, 0
+        font_size: 0.5 * self.height if (0.5 * self.height) < (0.2 * self.width) else 0.2 * self.width
+        text: "DELETE"
+        size_hint: 1, 0.2
+        pos_hint: {"x": 0, "y": 0}
+        on_release:
+            root.confirm_delete()
+            root.parent.parent.parent.dismiss()
